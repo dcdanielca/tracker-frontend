@@ -1,46 +1,67 @@
 import { http, HttpResponse } from "msw";
 import { Case } from "@/types/case";
 import { PaginatedResponse } from "@/types/api";
+import { mockCases, mockCaseWithQueries } from "./data";
 
-const mockCases: Case[] = [
-  {
-    id: "1",
-    title: "Caso de prueba 1",
-    description: "Descripción del caso de prueba 1",
-    case_type: "support",
-    priority: "high",
-    status: "open",
-    created_by: "Usuario Test",
-    created_at: "2024-01-01T10:00:00Z",
-    queries_count: 1,
-  },
-  {
-    id: "2",
-    title: "Caso de prueba 2",
-    description: "Descripción del caso de prueba 2",
-    case_type: "requirement",
-    priority: "medium",
-    status: "in_progress",
-    created_by: "Usuario Test 2",
-    created_at: "2024-01-02T10:00:00Z",
-    queries_count: 0,
-  },
-];
+const baseURL = "http://localhost:8000";
 
 export const handlers = [
-  http.get("/api/v1/cases/", () => {
+  // GET /api/v1/cases/ - List cases with filters and pagination
+  http.get(`${baseURL}/api/v1/cases/`, ({ request }) => {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1");
+    const size = parseInt(url.searchParams.get("size") || "10");
+    const status = url.searchParams.get("status");
+    const priority = url.searchParams.get("priority");
+    const case_type = url.searchParams.get("case_type");
+    const search = url.searchParams.get("search");
+
+    let filteredCases = [...mockCases];
+
+    // Apply filters
+    if (status) {
+      filteredCases = filteredCases.filter((c) => c.status === status);
+    }
+    if (priority) {
+      filteredCases = filteredCases.filter((c) => c.priority === priority);
+    }
+    if (case_type) {
+      filteredCases = filteredCases.filter((c) => c.case_type === case_type);
+    }
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filteredCases = filteredCases.filter(
+        (c) =>
+          c.title.toLowerCase().includes(searchLower) ||
+          c.description.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Pagination
+    const start = (page - 1) * size;
+    const end = start + size;
+    const paginatedCases = filteredCases.slice(start, end);
+
     const response: PaginatedResponse<Case> = {
-      items: mockCases,
-      total: 2,
-      page: 1,
-      size: 10,
-      pages: 1,
+      items: paginatedCases,
+      total: filteredCases.length,
+      page,
+      size,
+      pages: Math.ceil(filteredCases.length / size),
     };
+
     return HttpResponse.json(response);
   }),
 
-  http.get("/api/v1/cases/:id", ({ params }) => {
+  // GET /api/v1/cases/:id - Get single case with queries
+  http.get(`${baseURL}/api/v1/cases/:id`, ({ params }) => {
     const { id } = params;
+
+    // Return case with queries for case 1
+    if (id === "1") {
+      return HttpResponse.json(mockCaseWithQueries);
+    }
+
     const caseItem = mockCases.find((c) => c.id === id);
 
     if (!caseItem) {
@@ -50,13 +71,20 @@ export const handlers = [
     return HttpResponse.json(caseItem);
   }),
 
-  http.post("/api/v1/cases/", async ({ request }) => {
-    const body = await request.json();
+  // POST /api/v1/cases/ - Create new case
+  http.post(`${baseURL}/api/v1/cases/`, async ({ request }) => {
+    const body = (await request.json()) as any;
+
     const newCase: Case = {
       id: "new-case-id",
-      ...(body as Omit<Case, "id" | "status" | "created_at">),
+      title: body.title,
+      description: body.description,
+      case_type: body.case_type,
+      priority: body.priority,
+      created_by: body.created_by,
       status: "open",
       created_at: new Date().toISOString(),
+      queries_count: body.queries?.length || 0,
     };
 
     return HttpResponse.json(newCase, { status: 201 });

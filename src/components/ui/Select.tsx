@@ -13,11 +13,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
-        <select
+          <label className="mb-2 block text-sm font-medium text-gray-700" htmlFor={label}>
+              {label}
+            </label>
+          )}
+          <select
+            id={label}
           className={cn(
             "flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             error && "border-red-500 focus-visible:ring-red-500",

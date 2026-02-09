@@ -204,6 +204,15 @@ Implementa estructura inicial del proyecto con requerimientos necesarios a insta
 
 Del formulario hay algunos campos que no van, ya que son opcionales (hipoteticamente luego alguien los llenaria). Dentro de cada query no va ejecutador por, tiempo de ejecucion y tampoco filas afectadas
 
-# Implementacion para ejecucion con docker y actualizacion de README
+# Implementacion para ejecucion con docker
 
 Ahora quiero que el proyecto use Docker y Makefile con buenas prácticas, donde contenta build, up, down, logs, shell y test
+
+# Generacion de tests
+
+Quiero implementar el resto de tests que faltan para todos los componentes, formulario, hooks, llamadas a API, rutas, estados
+
+# Actualizacion README
+
+ACtualiza READM para instalacion y ejecucion del proyecto.
+Asi mismo un contexto de como está construido (explicando componentes)

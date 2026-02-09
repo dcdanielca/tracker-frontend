@@ -1,0 +1,85 @@
+import { Case, CaseDetailQueries, Query } from "@/types/case";
+
+export const mockQueries: Query[] = [
+  {
+    id: "query-1",
+    case_id: "1",
+    database_name: "production_db",
+    schema_name: "public",
+    query_text: "SELECT * FROM users WHERE id = 123",
+    execution_time_ms: 45,
+    rows_affected: 1,
+    executed_at: "2024-01-01T10:30:00Z",
+    executed_by: "admin",
+  },
+  {
+    id: "query-2",
+    case_id: "1",
+    database_name: "analytics_db",
+    schema_name: "metrics",
+    query_text: "SELECT COUNT(*) FROM events WHERE date > '2024-01-01'",
+    execution_time_ms: 120,
+    rows_affected: 5000,
+    executed_at: "2024-01-01T11:00:00Z",
+    executed_by: "analyst",
+  },
+];
+
+export const mockCases: Case[] = [
+  {
+    id: "1",
+    title: "Caso de prueba 1",
+    description: "Descripción del caso de prueba 1",
+    case_type: "support",
+    priority: "high",
+    status: "open",
+    created_by: "Usuario Test",
+    created_at: "2024-01-01T10:00:00Z",
+    queries_count: 2,
+  },
+  {
+    id: "2",
+    title: "Caso de prueba 2",
+    description: "Descripción del caso de prueba 2",
+    case_type: "requirement",
+    priority: "medium",
+    status: "in_progress",
+    created_by: "Usuario Test 2",
+    created_at: "2024-01-02T10:00:00Z",
+    queries_count: 0,
+  },
+  {
+    id: "3",
+    title: "Error crítico en producción",
+    description: "Sistema caído en producción",
+    case_type: "investigation",
+    priority: "critical",
+    status: "resolved",
+    created_by: "SRE Team",
+    created_at: "2024-01-03T10:00:00Z",
+    queries_count: 5,
+  },
+  {
+    id: "4",
+    title: "Optimización de queries",
+    description: "Mejorar performance de base de datos",
+    case_type: "support",
+    priority: "low",
+    status: "closed",
+    created_by: "DBA Team",
+    created_at: "2024-01-04T10:00:00Z",
+    queries_count: 3,
+  },
+];
+
+export const mockCaseWithQueries: CaseDetailQueries = {
+  id: "1",
+  title: "Caso de prueba 1",
+  description: "Descripción del caso de prueba 1",
+  case_type: "support",
+  priority: "high",
+  status: "open",
+  created_by: "Usuario Test",
+  created_at: "2024-01-01T10:00:00Z",
+  queries: mockQueries,
+};

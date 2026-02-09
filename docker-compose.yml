@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  # Development service
+  frontend-dev:
+    container_name: tracker-frontend-dev
+    build:
+      context: .
+      target: development
+    volumes:
+      # Mount source code for hot reload
+      - .:/app
+      # Use named volumes for node_modules to avoid conflicts
+      - node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8000}
+    stdin_open: true
+    tty: true
+    networks:
+      - tracker-network
+    profiles:
+      - dev
+
+  # Production service
+  frontend-prod:
+    container_name: tracker-frontend-prod
+    build:
+      context: .
+      target: production
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - tracker-network
+    profiles:
+      - prod
+
+  # Test service (for running tests in container)
+  frontend-test:
+    container_name: tracker-frontend-test
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=test
+    command: npm run test:coverage
+    networks:
+      - tracker-network
+    profiles:
+      - test
+
+networks:
+  tracker-network:
+    driver: bridge
+    name: tracker-network
+
+volumes:
+  node_modules:
+    name: tracker-frontend-node-modules

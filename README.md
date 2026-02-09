@@ -46,29 +46,71 @@ Sistema frontend profesional para gestión de casos de soporte con queries SQL a
 
 ## 📋 Pre-requisitos
 
+### Opción 1: Con Docker (Recomendado)
+- Docker 20+
+- Docker Compose 2+
+- Make (opcional, pero recomendado)
+
+### Opción 2: Sin Docker
 - Node.js 18+ o 20+
 - npm 9+
 - Backend API corriendo en `http://localhost:8000`
 
 ## 🔧 Instalación
 
+### Con Docker (Recomendado) 🐳
+
 ```bash
-# Clonar el repositorio (o navegar al directorio)
-cd tracker-frontend
-
-# Instalar dependencias
-npm install
-
-# Copiar variables de entorno
+# 1. Copiar variables de entorno
 cp .env.example .env
 
-# Editar .env con tu configuración
-# VITE_API_BASE_URL=http://localhost:8000
+# 2. Construir las imágenes
+make build
+
+# 3. Iniciar
+make up
+
+# La aplicación estará disponible en http://localhost:5173
+```
+
+Ver [DOCKER.md](./DOCKER.md) para documentación completa de Docker y Makefile.
+
+### Sin Docker
+
+```bash
+# 1. Instalar dependencias
+npm install
+
+# 2. Copiar variables de entorno
+cp .env.example .env
+
+# 3. Iniciar desarrollo
+npm run dev
+
+# La aplicación estará disponible en http://localhost:5173
 ```
 
 ## 🏃 Uso
 
-### Desarrollo
+### Con Docker 🐳
+
+```bash
+# Desarrollo
+make dev              # Iniciar entorno de desarrollo
+make logs             # Ver logs
+make shell            # Acceder al shell del contenedor
+make test             # Ejecutar tests
+make down             # Detener servicios
+
+# Producción
+make prod-build       # Construir imagen de producción
+make prod             # Iniciar producción (puerto 3000)
+
+# Ver todos los comandos
+make help
+```
+
+### Sin Docker
 
 ```bash
 # Iniciar servidor de desarrollo
@@ -89,31 +131,36 @@ npm run preview
 
 ### Testing
 
+#### Con Docker
 ```bash
-# Ejecutar tests en watch mode
-npm test
+make test              # Ejecutar tests
+make test-coverage     # Tests con coverage
+make test-ui           # Abrir UI de Vitest
+```
 
-# Ejecutar tests con UI
-npm run test:ui
-
-# Generar reporte de coverage
-npm run test:coverage
+#### Sin Docker
+```bash
+npm test               # Tests en watch mode
+npm run test:ui        # Tests con UI
+npm run test:coverage  # Generar coverage
 ```
 
 ### Linting & Formatting
 
+#### Con Docker
 ```bash
-# Ejecutar ESLint
-npm run lint
+make lint              # Ejecutar ESLint
+make lint-fix          # Corregir problemas
+make format            # Formatear con Prettier
+make type-check        # Verificar TypeScript
+```
 
-# Arreglar problemas de ESLint
-npm run lint:fix
-
-# Formatear código con Prettier
-npm run format
-
-# Verificar tipos de TypeScript
-npm run type-check
+#### Sin Docker
+```bash
+npm run lint           # Ejecutar ESLint
+npm run lint:fix       # Corregir problemas
+npm run format         # Formatear código
+npm run type-check     # Verificar tipos
 ```
 
 ## 📁 Estructura del Proyecto
@@ -272,6 +319,7 @@ Verificar que `vite.config.ts` y `tsconfig.app.json` tengan configurados los ali
 
 ## 📚 Documentación Adicional
 
+- [DOCKER.md](./DOCKER.md) - Guía completa de Docker y Makefile
 - [CLAUDE.md](./CLAUDE.md) - Especificación completa del proyecto
 - [React Documentation](https://react.dev)
 - [TanStack Query Docs](https://tanstack.com/query/latest)
