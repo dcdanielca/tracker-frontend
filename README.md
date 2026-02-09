@@ -90,6 +90,16 @@ npm run dev
 # La aplicación estará disponible en http://localhost:5173
 ```
 
+## Testing
+
+```bash
+# Ejecutar tests
+make test
+
+# Ejecutar tests con coverage
+make test-coverage
+```
+
 ## 📁 Estructura del Proyecto
 
 ```
