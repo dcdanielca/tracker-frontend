@@ -11,6 +11,20 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
+      exclude: [
+        "node_modules/**",
+        "src/test/**",
+        "**/*.config.js",
+        "**/*.config.ts",
+        "postcss.config.js",
+        "tailwind.config.js",
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/index.tsx",
+        "**/*.d.ts",
+        "**/dist/**",
+        "**/*.eslintrc.cjs"
+      ],
     },
   },
   resolve: {

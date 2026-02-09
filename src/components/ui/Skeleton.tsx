@@ -18,6 +18,7 @@ export function Skeleton({
 
   return (
     <div
+      data-testid="skeleton"
       className={cn("animate-pulse bg-gray-200", variants[variant], className)}
       {...props}
     />
@@ -26,7 +27,7 @@ export function Skeleton({
 
 export function TableSkeleton() {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" data-testid="table-skeleton">
       {[...Array(5)].map((_, i) => (
         <div key={i} className="flex gap-4">
           <Skeleton className="h-12 w-full" />

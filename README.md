@@ -49,7 +49,7 @@ Sistema frontend profesional para gestión de casos de soporte con queries SQL a
 ### Opción 1: Con Docker (Recomendado)
 - Docker 20+
 - Docker Compose 2+
-- Make (opcional, pero recomendado)
+- Make
 
 ### Opción 2: Sin Docker
 - Node.js 18+ o 20+
@@ -90,79 +90,6 @@ npm run dev
 # La aplicación estará disponible en http://localhost:5173
 ```
 
-## 🏃 Uso
-
-### Con Docker 🐳
-
-```bash
-# Desarrollo
-make dev              # Iniciar entorno de desarrollo
-make logs             # Ver logs
-make shell            # Acceder al shell del contenedor
-make test             # Ejecutar tests
-make down             # Detener servicios
-
-# Producción
-make prod-build       # Construir imagen de producción
-make prod             # Iniciar producción (puerto 3000)
-
-# Ver todos los comandos
-make help
-```
-
-### Sin Docker
-
-```bash
-# Iniciar servidor de desarrollo
-npm run dev
-
-# La aplicación estará disponible en http://localhost:5173
-```
-
-### Build de Producción
-
-```bash
-# Compilar TypeScript y generar build
-npm run build
-
-# Preview del build
-npm run preview
-```
-
-### Testing
-
-#### Con Docker
-```bash
-make test              # Ejecutar tests
-make test-coverage     # Tests con coverage
-make test-ui           # Abrir UI de Vitest
-```
-
-#### Sin Docker
-```bash
-npm test               # Tests en watch mode
-npm run test:ui        # Tests con UI
-npm run test:coverage  # Generar coverage
-```
-
-### Linting & Formatting
-
-#### Con Docker
-```bash
-make lint              # Ejecutar ESLint
-make lint-fix          # Corregir problemas
-make format            # Formatear con Prettier
-make type-check        # Verificar TypeScript
-```
-
-#### Sin Docker
-```bash
-npm run lint           # Ejecutar ESLint
-npm run lint:fix       # Corregir problemas
-npm run format         # Formatear código
-npm run type-check     # Verificar tipos
-```
-
 ## 📁 Estructura del Proyecto
 
 ```
@@ -197,101 +124,6 @@ src/
 └── index.css                # Estilos globales
 ```
 
-## 🔗 API Endpoints
-
-El frontend consume los siguientes endpoints del backend:
-
-### Listar Casos
-```
-GET /api/v1/cases/
-Query Params: page, size, status, priority, case_type, search
-```
-
-### Obtener Caso
-```
-GET /api/v1/cases/{case_id}
-```
-
-### Crear Caso
-```
-POST /api/v1/cases/
-Body: { title, description, case_type, priority, created_by, queries }
-```
-
-## 🎨 Convenciones de Código
-
-### TypeScript
-- Strict mode habilitado
-- No uso de `any`
-- Props e interfaces bien tipadas
-
-### Naming
-- Componentes: `PascalCase.tsx`
-- Hooks: `camelCase.ts` (prefijo `use`)
-- Utilidades: `camelCase.ts`
-- Constantes: `UPPER_SNAKE_CASE`
-
-### Componentes
-```typescript
-// Estructura recomendada
-import { useState } from "react";
-
-interface ComponentProps {
-  title: string;
-}
-
-export function Component({ title }: ComponentProps) {
-  const [state, setState] = useState();
-
-  const handleClick = () => {
-    // handler logic
-  };
-
-  return <div>{title}</div>;
-}
-```
-
-### Hooks Personalizados
-```typescript
-export function useCustomHook(param: string) {
-  const query = useQuery({...});
-
-  return {
-    data: query.data,
-    isLoading: query.isLoading,
-  };
-}
-```
-
-## 🧪 Testing
-
-### Ejecutar Tests
-
-```bash
-# Todos los tests
-npm test
-
-# Tests específicos
-npm test Button
-
-# Con coverage
-npm run test:coverage
-```
-
-### Escribir Tests
-
-```typescript
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { Button } from "./Button";
-
-describe("Button", () => {
-  it("renders correctly", () => {
-    render(<Button>Click me</Button>);
-    expect(screen.getByText("Click me")).toBeInTheDocument();
-  });
-});
-```
 
 ## 🌍 Variables de Entorno
 
@@ -302,47 +134,6 @@ VITE_API_BASE_URL=http://localhost:8000
 ```
 
 **Nota:** Las variables deben empezar con `VITE_` para estar disponibles en el código.
-
-## 🚨 Troubleshooting
-
-### Error: "Cannot find module '@/...'"
-Verificar que `vite.config.ts` y `tsconfig.app.json` tengan configurados los aliases correctamente.
-
-### Error: "Network Error"
-- Verificar que el backend esté corriendo
-- Verificar `VITE_API_BASE_URL` en `.env`
-- Verificar el proxy en `vite.config.ts`
-
-### Tests fallan
-- Verificar que `vitest.config.ts` tenga `environment: "jsdom"`
-- Verificar que `src/test/setup.ts` esté configurado
-
-## 📚 Documentación Adicional
-
-- [DOCKER.md](./DOCKER.md) - Guía completa de Docker y Makefile
-- [CLAUDE.md](./CLAUDE.md) - Especificación completa del proyecto
-- [React Documentation](https://react.dev)
-- [TanStack Query Docs](https://tanstack.com/query/latest)
-- [React Hook Form](https://react-hook-form.com)
-- [Zod Documentation](https://zod.dev)
-- [TailwindCSS](https://tailwindcss.com)
-
-## 🤝 Contribución
-
-### Checklist antes de commit
-
-- [ ] `npm run type-check` sin errores
-- [ ] `npm run lint` sin errores
-- [ ] `npm test` todos los tests pasan
-- [ ] `npm run format` código formateado
-- [ ] Sin `any` types
-- [ ] Sin `console.log` innecesarios
-- [ ] Componentes pequeños y enfocados
-- [ ] Tests actualizados
-
-## 📄 Licencia
-
-Este proyecto es privado y confidencial.
 
 ---
 
