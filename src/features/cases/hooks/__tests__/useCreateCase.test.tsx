@@ -7,6 +7,13 @@ import { CreateCaseData } from "@/types/case";
 import { ReactNode } from "react";
 import toast from "react-hot-toast";
 
+
+vi.mock("../services/casesApi", () => ({
+  casesApi: {
+    createCase: vi.fn(),
+  },
+}));
+
 // Mock toast
 vi.mock("react-hot-toast", () => ({
   default: {

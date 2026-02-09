@@ -3,10 +3,12 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useCase } from "../useCase";
 import { ReactNode } from "react";
+import { casesApi } from "../../services/casesApi";
 
-vi.mock("../services/casesApi", () => ({
+
+vi.mock("../../services/casesApi", () => ({
   casesApi: {
-    getCases: vi.fn(),
+    getCase: vi.fn(),
   },
 }));
 
@@ -27,9 +29,23 @@ const createWrapper = () => {
   return Wrapper;
 };
 
+
+const mockCasesResponse = {
+    id: "1",
+    case_type: "requirement",
+    created_at: "2026-02-09T18:28:50.053393",
+    created_by: "test@as.co",
+    description: "asdasdasdasdads",
+    priority: "medium",
+    status: "open",
+    title: "Case",
+    queries: []
+};
+
 describe("useCase", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (casesApi.getCase as any).mockResolvedValue(mockCasesResponse);
   });
 
   it("fetches a single case by id", async () => {

@@ -210,9 +210,8 @@ Ahora quiero que el proyecto use Docker y Makefile con buenas prácticas, donde 
 
 # Generacion de tests
 
-Quiero implementar el resto de tests que faltan para todos los componentes, formulario, hooks, llamadas a API, rutas, estados
+Quiero implementar tests para todos los componentes, formulario, hooks, llamadas a API, rutas, estados
 
-# Actualizacion README
+# Ajustes
 
-ACtualiza READM para instalacion y ejecucion del proyecto.
-Asi mismo un contexto de como está construido (explicando componentes)
+Genera tests para CaseDetail.tsx CaseFilters.tsx CaseForm.tsx CaseTable.tsx CaseDetailPage.tsx CasesListPage.txs CreateCasePage.tsx y excluye de test postcss.config.js tailwind.config.js App.tsx y main.tsx

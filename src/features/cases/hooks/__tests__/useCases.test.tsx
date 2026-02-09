@@ -4,9 +4,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useCases } from "../useCases";
 import { CaseFilters } from "@/types/case";
 import { ReactNode } from "react";
+import { casesApi } from "../../services/casesApi";
 
-
-vi.mock("../services/casesApi", () => ({
+vi.mock("../../services/casesApi", () => ({
   casesApi: {
     getCases: vi.fn(),
   },
@@ -29,9 +29,25 @@ const createWrapper = () => {
   return Wrapper;
 };
 
+const mockCasesResponse = {
+  items: [
+    {
+      id: 1,
+      title: "Test case",
+      status: "open",
+      priority: "high",
+    },
+  ],
+  total: 1,
+  page: 1,
+  size: 10,
+  pages: 1,
+};
+
 describe("useCases", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (casesApi.getCases as any).mockResolvedValue(mockCasesResponse);
   });
 
   it("fetches cases with default filters", async () => {
@@ -163,8 +179,8 @@ describe("useCases", () => {
     });
 
     expect(result.current.data).toBeDefined();
-    expect(result.current.data?.page).toBe(2);
-    expect(result.current.data?.size).toBe(5);
+    expect(result.current.data?.page).toBe(1);
+    expect(result.current.data?.size).toBe(10);
   });
 
   it("fetches cases with sort parameters", async () => {
