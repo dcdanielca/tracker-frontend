@@ -198,4 +198,12 @@ Empieza generando el setup completo del proyecto con Vite + Tailwind + TS.
 
 # Estructura
 
-Implementa estrucutra inicial del proyecto con requerimientos necesarios a instalar
+Implementa estructura inicial del proyecto con requerimientos necesarios a instalar
+
+# Ajustes a formulario
+
+Del formulario hay algunos campos que no van, ya que son opcionales (hipoteticamente luego alguien los llenaria). Dentro de cada query no va ejecutador por, tiempo de ejecucion y tampoco filas afectadas
+
+# Implementacion para ejecucion con docker y actualizacion de README
+
+Ahora quiero que el proyecto use Docker y Makefile con buenas prácticas, donde contenta build, up, down, logs, shell y test
